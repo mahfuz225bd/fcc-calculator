@@ -1,0 +1,27 @@
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.container a {
+    color: #000;
+}
+.container a:hover {
+    color: green;
+}
+
+.col {}
+
+.calc-form {
+    width: 295px;
+}

@@ -1,18 +1,17 @@
 import React from 'react';
-import styles from './App.module.css';
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import styles from './SimpleCalculator.module.css';
 
-import { ButtonPanel, Button } from './components/ButtonPanel';
-import Display from './components/Display';
-import { DataList, DataListItem } from './components/DataList';
+import { ButtonPanel, Button } from './ButtonPanel/ButtonPanel';
+import Display from './Display/Display';
+import { DataList, DataListItem } from '../DataList';
 
 import {
   buttonValues,
   DIV_SIGN,
   MUL_SIGN,
-} from './assets/data/buttonValues.js';
+} from '../../assets/data/buttonValues';
 
-export default class App extends React.Component {
+export class SimpleCalculator extends React.Component {
   constructor(props) {
     super(props);
 
@@ -79,7 +78,7 @@ export default class App extends React.Component {
     let getValidCalcInput = inputValue.replace(/×/gi, '*').replace(/÷/gi, '/');
 
     // Try: Set outputValue at state \w eval getValidCalcInput
-    // Catch: Replace extra zeros \w "" (at the beginning)
+    // Catch: Replce extra zeros \w "" (at the beginning)
     //        + Else: Set state.outputValue = "Invalid Calc"
     try {
       // If provided inputValue
@@ -133,73 +132,62 @@ export default class App extends React.Component {
     const { inputValue, outputValue, history } = this.state;
 
     return (
-      <div className={"container " + styles.container}>
-        <div className="row">
-          <h1 className="display-4 text-center">Calculator App</h1>
-        </div>
-        <div className={"row " + styles.mainContainer}>
-          <div className={"col-12 col-md-6 " + styles['col']}>
-            <form className={styles['calc-form'] + " mx-auto mx-md-0"}>
-              <Display
-                inputValue={inputValue}
-                inputOnChange={this.hanldeInputValue}
-                outputValue={outputValue}
-                outputOnChange={this.handleOutputValue}
-                onClearInput={this.handleClear}
-              />
-              <ButtonPanel>
-                {buttonValues.map((each, index) =>
-                  // ['AC']
-                  each === 'AC' ? (
+      <div className="container row">
+        <div className="col">
+          <form className={styles['calc-form']}>
+            <Display
+              inputValue={inputValue}
+              inputOnChange={this.hanldeInputValue}
+              outputValue={outputValue}
+              outputOnChange={this.handleOutputValue}
+              onClearInput={this.handleClear}
+            />
+            <ButtonPanel>
+              {buttonValues.map((each, index) =>
+                // ['AC']
+                each === 'AC' ? (
+                  <Button
+                    value={each}
+                    onClick={this.handleAllClear}
+                    key={index}
+                  />
+                ) : // ['=']
+                  each === '=' ? (
                     <Button
                       value={each}
-                      onClick={this.handleAllClear}
+                      onClick={this.hanldeEvalInput}
                       key={index}
                     />
-                  ) : // ['=']
-                    each === '=' ? (
+                  ) : // ['+', '-', '×', '÷', '%']
+                    ['+', '-', MUL_SIGN, DIV_SIGN, '%'].includes(each) ? (
                       <Button
                         value={each}
-                        onClick={this.hanldeEvalInput}
+                        onClick={this.handleOperation}
                         key={index}
                       />
-                    ) : // ['+', '-', '×', '÷', '%']
-                      ['+', '-', MUL_SIGN, DIV_SIGN, '%'].includes(each) ? (
-                        <Button
-                          value={each}
-                          onClick={this.handleOperation}
-                          key={index}
-                        />
-                      ) : (
-                        // Else
-                        <Button
-                          value={each}
-                          onClick={this.hanldeInsertInputValue}
-                          key={index}
-                        />
-                      )
-                )}
-              </ButtonPanel>
-            </form>
-          </div>
-          <div className={"col-12 col-md-6 mt-4 mt-md-0 " + styles.col}>
-            <DataList title="History" onClearAll={this.handleClearAllHistory}>
-              {[...history].reverse().map((each, index) => (
-                <DataListItem key={index}>
-                  <span className="fs-5 ms-auto">
-                    {each.input} <br />
-                    {each.output} =
-                  </span>
-                </DataListItem>
-              ))}
-            </DataList>
-          </div>
+                    ) : (
+                      // Else
+                      <Button
+                        value={each}
+                        onClick={this.hanldeInsertInputValue}
+                        key={index}
+                      />
+                    )
+              )}
+            </ButtonPanel>
+          </form>
         </div>
-        <div className="row d-block">
-          <p className="text-center">
-            by <a href="http://codepen.io/mahfuz225bd" target="_blank" rel="noreferrer">Muhammad Sultan Al Mahfuz</a>.{' '}
-            <a href="https://github.com/mahfuz225bd/fcc-calculator" target="_blank" rel="noreferrer">GitHub Source Code</a>.
-          </p>
+        <div className="col">
+          <DataList title="History" onClearAll={this.handleClearAllHistory}>
+            {[...history].reverse().map((each, index) => (
+              <DataListItem key={index}>
+                <span className="fs-5 ms-auto">
+                  {each.input} <br />
+                  {each.output} =
+                </span>
+              </DataListItem>
+            ))}
+          </DataList>
         </div>
       </div>
     );
