@@ -1,4 +1,4 @@
-# Javascript Calculator \w React
+# FFC: Javascript Calculator
 
 A super simple calculator developed with [React](https://reactjs.org/).
 
