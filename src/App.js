@@ -195,7 +195,7 @@ export default class App extends React.Component {
             </DataList>
           </div>
         </div>
-        <div className="row d-block">
+        <div className="row mt-2">
           <p className="text-center">
             by <a href="http://codepen.io/mahfuz225bd" target="_blank" rel="noreferrer">Muhammad Sultan Al Mahfuz</a>.{' '}
             <a href="https://github.com/mahfuz225bd/fcc-calculator" target="_blank" rel="noreferrer">GitHub Source Code</a>.
